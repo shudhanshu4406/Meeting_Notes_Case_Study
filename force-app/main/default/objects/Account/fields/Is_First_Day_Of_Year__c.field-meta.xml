@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_First_Day_Of_Year__c</fullName>
+    <formula>IF(TODAY() = DATE(YEAR(TODAY()),01,01),TRUE,FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is First Day Of Year</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>Account.Is_First_Day_Of_Year__c</members>
+		<members>Account.Meeting_Notes_This_Year__c</members>
+		<members>Meeting_Attendee__c.Attendee_Type__c</members>
+		<members>Meeting_Attendee__c.Contact__c</members>
+		<members>Meeting_Attendee__c.Meeting__c</members>
+		<members>Meeting_Attendee__c.User__c</members>
+		<members>Meeting__c.Account__c</members>
+		<members>Meeting__c.Detailed_Notes__c</members>
+		<members>Meeting__c.Is_Meeting_This_Year__c</members>
+		<members>Meeting__c.Meeting_Date__c</members>
+		<members>Meeting__c.Summary__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>Meeting_Attendee__c</members>
+		<members>Meeting__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>Meeting_Notes_Form_Screen_Flow</members>
+		<members>Update_Last_Year_Meeting_Records_Scheduled_Flow</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>Meeting_Attendee__c-Meeting Attendee Layout</members>
+		<members>Meeting__c-Meeting Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>screenFlowRichText</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>Account.Create_Meeting_Notes</members>
+		<name>QuickAction</name>
+	</types>
+	<version>64.0</version>
+</Package>
