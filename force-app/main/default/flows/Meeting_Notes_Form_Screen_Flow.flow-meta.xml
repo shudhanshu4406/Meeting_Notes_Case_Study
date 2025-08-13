@@ -7,9 +7,11 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Success_Msg_Screen</targetReference>
+        </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
+            <targetReference>Rollback_Dml_3</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -256,7 +258,7 @@
     <customProperties>
         <name>ScreenProgressIndicator</name>
         <value>
-            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
+            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;path&quot;}</stringValue>
         </value>
     </customProperties>
     <decisions>
@@ -339,12 +341,15 @@
         <label>Check If To Send Email</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Success_Msg_Screen</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>yes</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Send_Email</leftValueReference>
+                <leftValueReference>Send_Email_Toggle.value</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -481,8 +486,7 @@
             <targetReference>Check_If_To_Send_Email</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
+            <targetReference>Rollback_Dml_2</targetReference>
         </faultConnector>
         <inputReference>Attendee_Records</inputReference>
     </recordCreates>
@@ -495,10 +499,249 @@
             <targetReference>Check_If_Ext_Attendee_Selected</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>Error_Screen</targetReference>
+            <targetReference>Rollback_Dml_1</targetReference>
         </faultConnector>
         <inputReference>MeetingRecord</inputReference>
     </recordCreates>
+    <recordRollbacks>
+        <name>Rollback_Dml_1</name>
+        <label>Rollback Dml</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Error_Screen</targetReference>
+        </connector>
+    </recordRollbacks>
+    <recordRollbacks>
+        <name>Rollback_Dml_2</name>
+        <label>Rollback Dml</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Screen</targetReference>
+        </connector>
+    </recordRollbacks>
+    <recordRollbacks>
+        <name>Rollback_Dml_3</name>
+        <label>Rollback Dml</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Screen</targetReference>
+        </connector>
+    </recordRollbacks>
+    <screens>
+        <name>Attendee_Entry_Screen</name>
+        <label>Attendee Entry Screen</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Email_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>Attendee_Entry_Screen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Attendee_Entry_Screen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Internal_Attendee</name>
+                    <choiceReferences>Active_Users</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Internal Attendee</fieldText>
+                    <fieldType>MultiSelectPicklist</fieldType>
+                    <helpText>&lt;p&gt;Select internal users as attendee.&lt;/p&gt;</helpText>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Attendee_Entry_Screen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>External_Attendee</name>
+                    <choiceReferences>Related_Contacts</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>External Attendee</fieldText>
+                    <fieldType>MultiSelectPicklist</fieldType>
+                    <helpText>&lt;p&gt;Select contacts as external attendee&lt;/p&gt;</helpText>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <stageReference>
+            <elementReference>Attendee_Details</elementReference>
+        </stageReference>
+    </screens>
+    <screens>
+        <name>Email_Screen</name>
+        <label>Email Screen</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Assign_Meeting_Rec_Field_Values</targetReference>
+        </connector>
+        <fields>
+            <name>Email_Screen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Email_Screen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Send_Email_Toggle</name>
+                    <extensionName>flowruntime:toggle</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Send Email?</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleActive</name>
+                        <value>
+                            <stringValue>Yes</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>disabled</name>
+                        <value>
+                            <booleanValue>false</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleInactive</name>
+                        <value>
+                            <stringValue>No</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Email_Screen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Email_Addresses</name>
+                    <fieldText>Email Addresses</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <helpText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Add email addresses &apos;,&apos; separated in order to send email to multiple people.&lt;/span&gt;&lt;/p&gt;</helpText>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Send_Email_Toggle.value</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <nextOrFinishButtonLabel>Submit</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <stageReference>
+            <elementReference>Email_Details</elementReference>
+        </stageReference>
+    </screens>
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
@@ -532,7 +775,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Assign_Meeting_Rec_Field_Values</targetReference>
+            <targetReference>Attendee_Entry_Screen</targetReference>
         </connector>
         <fields>
             <name>Meeting_Entry_Screen_Section1</name>
@@ -544,7 +787,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MeetingRecord.Summary__c</objectFieldReference>
+                    <objectFieldReference>MeetingRecord.Title__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -566,24 +809,10 @@
                 <name>Meeting_Entry_Screen_Section1_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>Detailed_Meeting_Notes</name>
-                    <extensionName>c:screenFlowRichText</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>fieldLabel</name>
-                        <value>
-                            <stringValue>Detailed Notes</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>fieldLength</name>
-                        <value>
-                            <numberValue>131072.0</numberValue>
-                        </value>
-                    </inputParameters>
+                    <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MeetingRecord.Meeting_Date__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -622,7 +851,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MeetingRecord.Meeting_Date__c</objectFieldReference>
+                    <objectFieldReference>MeetingRecord.Summary__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -635,35 +864,7 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Meeting_Entry_Screen_Section2_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Internal_Attendee</name>
-                    <choiceReferences>Active_Users</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Internal Attendee</fieldText>
-                    <fieldType>MultiSelectPicklist</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>12</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -686,13 +887,30 @@
                 <name>Meeting_Entry_Screen_Section3_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>External_Attendee</name>
-                    <choiceReferences>Related_Contacts</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>External Attendee</fieldText>
-                    <fieldType>MultiSelectPicklist</fieldType>
+                    <name>Detailed_Meeting_Notes</name>
+                    <extensionName>c:screenFlowRichText</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>fieldLabel</name>
+                        <value>
+                            <stringValue>Detailed Notes</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldLength</name>
+                        <value>
+                            <numberValue>131072.0</numberValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>visibleLines</name>
+                        <value>
+                            <numberValue>8.0</numberValue>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -705,18 +923,7 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Meeting_Entry_Screen_Section3_Column2</name>
-                <fieldType>Region</fieldType>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>12</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -732,75 +939,26 @@
                 </width>
             </styleProperties>
         </fields>
+        <helpText>&lt;p&gt;Enter Meeting Information and Summary&lt;/p&gt;</helpText>
+        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <stageReference>
+            <elementReference>Meeting_Details</elementReference>
+        </stageReference>
+    </screens>
+    <screens>
+        <name>Success_Msg_Screen</name>
+        <label>Success Screen</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
         <fields>
-            <name>Meeting_Entry_Screen_Section4</name>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Meeting_Entry_Screen_Section4_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Send_Email</name>
-                    <dataType>Boolean</dataType>
-                    <fieldText>Send Email?</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Meeting_Entry_Screen_Section4_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Email_Addresses</name>
-                    <fieldText>Email Addresses</fieldText>
-                    <fieldType>LargeTextArea</fieldType>
-                    <helpText>&lt;p&gt;Add email addresses &apos;,&apos; separated in order to send email to multiple people.&lt;/p&gt;</helpText>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Send_Email</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <booleanValue>true</booleanValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <name>Success_Message</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(52, 99, 57); font-size: 16px;&quot;&gt;Meeting notes created successfully.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -812,7 +970,34 @@
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
+        <stageReference>
+            <elementReference>Success_Screen</elementReference>
+        </stageReference>
     </screens>
+    <stages>
+        <name>Attendee_Details</name>
+        <isActive>true</isActive>
+        <label>Attendee Details</label>
+        <stageOrder>2</stageOrder>
+    </stages>
+    <stages>
+        <name>Email_Details</name>
+        <isActive>true</isActive>
+        <label>Email Details</label>
+        <stageOrder>3</stageOrder>
+    </stages>
+    <stages>
+        <name>Meeting_Details</name>
+        <isActive>true</isActive>
+        <label>Meeting Details</label>
+        <stageOrder>1</stageOrder>
+    </stages>
+    <stages>
+        <name>Success_Screen</name>
+        <isActive>true</isActive>
+        <label>Success Screen</label>
+        <stageOrder>4</stageOrder>
+    </stages>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>

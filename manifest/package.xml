@@ -4,8 +4,10 @@
 		<members>Account.Is_First_Day_Of_Year__c</members>
 		<members>Account.Meeting_Notes_This_Year__c</members>
 		<members>Meeting_Attendee__c.Attendee_Type__c</members>
+		<members>Meeting_Attendee__c.Contact_Name__c</members>
 		<members>Meeting_Attendee__c.Contact__c</members>
 		<members>Meeting_Attendee__c.Meeting__c</members>
+		<members>Meeting_Attendee__c.User_Name__c</members>
 		<members>Meeting_Attendee__c.User__c</members>
 		<members>Meeting__c.Account__c</members>
 		<members>Meeting__c.Detailed_Notes__c</members>
@@ -21,6 +23,7 @@
 	</types>
 	<types>
 		<members>Meeting_Notes_Form_Screen_Flow</members>
+		<members>Send_Meeting_Notes_Email_Screen_Flow</members>
 		<members>Update_Last_Year_Meeting_Records_Scheduled_Flow</members>
 		<name>Flow</name>
 	</types>
@@ -35,6 +38,7 @@
 	</types>
 	<types>
 		<members>Account.Create_Meeting_Notes</members>
+		<members>Meeting__c.Send_Meeting_Notes</members>
 		<name>QuickAction</name>
 	</types>
 	<version>64.0</version>
