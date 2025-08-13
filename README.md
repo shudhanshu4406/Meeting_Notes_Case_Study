@@ -126,12 +126,12 @@ Additionally, **UI and user experience improvements** were made to streamline da
 
 ### **G. Post-Creation Email Sending from Meeting Record** *(New)*
 
-* Added a **Quick Action** on the Meeting\_\_c record page: `Send_Notes_Again`.
+* Added a **Quick Action** on the Meeting\_\_c record page: `Send_Meeting_Notes`.
 
 * Opens a Screen Flow where:
-
-  * Attendees from `Meeting_Attendee__c` are auto-populated.
-  * Additional recipient emails can be entered.
+  * Gives option to select wheather sending email to attendees or to additional email address
+  * Attendees from `Meeting_Attendee__c` are auto-populated if To Attendee option is selected.
+  * Additional recipient emails can be entered if To Additional email option is selected.
   * Meeting notes (`Detailed_Notes__c`) are fetched dynamically and sent.
 
 * Uses the same email template logic from initial creation for consistent formatting.
